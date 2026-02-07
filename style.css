@@ -1,0 +1,136 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('images/img.jpeg');
+}
+
+.quiz-container {
+  background: #fff;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+header hr {
+  border: none;
+  height: 3px;
+  background: #2575fc;
+  margin-bottom: 20px;
+  border-radius: 2px;
+}
+
+#score {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#question {
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+  color: #444;
+  min-height: 60px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn {
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  background-color: aqua;
+  color:black;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bolder;
+}
+
+.btn:hover {
+  background-color: #6a11cb;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.correct {
+  background-color: #4CAF50 !important;
+}
+
+.wrong {
+  background-color: #f44336 !important;
+}
+
+.navigation {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-btn {
+  width: 45%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .quiz-container {
+    padding: 30px 20px;
+  }
+  #question {
+    font-size: 1.3rem;
+  }
+  .btn {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+  .nav-btn {
+    width: 48%;
+  }
+}
+#next-btn {
+  background-color: #2f2fcf; 
+  color: #fff;
+}
+
+#next-btn:hover {
+  background-color: #2f2fcf;
+}
+
+#prev-btn {
+  background-color: #f44336; /* Red */
+  color: #fff;
+}
+
+#prev-btn:hover {
+  background-color: #da190b; /* Darker red on hover */
+}

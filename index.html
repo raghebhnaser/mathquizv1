@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en"><head><script>window.livecodes = window.livecodes || {};</script><title>Untitled Project</title><meta name="title" content="Untitled Project"><base href="https://cdn.jsdelivr.net/gh/raghebhnaser/Brain-Test-Quiz-App@main/index.html">
+<link rel="stylesheet" href="./style.css"><script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js" async=""></script><script type="importmap">{
+  "imports": {}
+}</script></head><body>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي العباقرة - قناة وسام التعليمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-yellow: #fefe00;
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --neon-green: #00ff00;
+            --bg-black: #000000;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-black);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* العلامة المائية Watermark */
+        .watermark {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 10px;
+            pointer-events: none;
+            z-index: 2000;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        #setup-screen {
+            background: #111;
+            padding: 20px;
+            border-radius: 30px;
+            border: 6px solid var(--neon-blue);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 50px var(--neon-blue);
+            z-index: 1000;
+        }
+
+        .input-group { margin-bottom: 15px; text-align: right; }
+        label { display: block; margin-bottom: 5px; color: var(--neon-yellow); font-size: 1.1rem; }
+        select, input {
+            width: 100%; padding: 10px; border-radius: 12px;
+            background: #222; color: white; border: 2px solid #444; font-family: 'Cairo';
+            box-sizing: border-box;
+        }
+
+        .start-btn {
+            background: linear-gradient(180deg, var(--neon-yellow), #ffcc00);
+            color: #000; padding: 15px; font-size: 1.8rem;
+            border-radius: 50px; cursor: pointer; font-weight: 900;
+            border: none; width: 100%; margin-top: 10px;
+        }
+
+        #video-screen {
+            display: none;
+            width: 100vw; height: 100vh;
+            flex-direction: column; justify-content: space-evenly; align-items: center;
+            position: relative;
+            background: radial-gradient(circle, #222 0%, #000 100%);
+            border: 15px solid;
+            animation: rainbowBorder 3s linear infinite;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        @keyframes rainbowBorder {
+            0% { border-color: var(--neon-pink); }
+            33% { border-color: var(--neon-yellow); }
+            66% { border-color: var(--neon-blue); }
+            100% { border-color: var(--neon-pink); }
+        }
+
+        @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes pulseTimer { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes shakeCorrect { 0%, 100% { transform: scale(1.05) rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+
+        #question-text {
+            font-size: clamp(5rem, 15vw, 8rem);
+            font-weight: 900; color: var(--neon-yellow);
+            text-shadow: 6px 6px 0px #ff0055, 0 0 40px var(--neon-yellow);
+            animation: floatAnim 3s ease-in-out infinite;
+            margin: 0; text-align: center;
+        }
+
+        #timer-box {
+            font-size: clamp(3rem, 10vw, 5rem);
+            background: var(--neon-pink);
+            width: clamp(100px, 20vw, 140px);
+            height: clamp(100px, 20vw, 140px);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            border: 6px solid white;
+            animation: pulseTimer 1s infinite;
+        }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 95%; max-width: 900px; }
+
+        .option-card {
+            background: #111; border: 6px solid #333; padding: clamp(15px, 4vw, 30px);
+            border-radius: 25px; font-size: clamp(2.5rem, 8vw, 4.5rem); 
+            text-align: center; position: relative; color: white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+
+        .option-card.correct-glow {
+            background: var(--neon-green) !important; color: #000 !important;
+            border-color: #fff !important; box-shadow: 0 0 80px var(--neon-green);
+            animation: shakeCorrect 0.3s infinite;
+            z-index: 100;
+        }
+
+        .letter-label {
+            position: absolute; top: -15px; right: -15px;
+            background: white; color: black; width: clamp(40px, 8vw, 60px); height: clamp(40px, 8vw, 60px);
+            border-radius: 50%; font-size: clamp(1.2rem, 4vw, 2rem); 
+            display: flex; justify-content: center; align-items: center; 
+            font-weight: 900; border: 3px solid var(--neon-blue);
+        }
+
+        #progress-info {
+            position: absolute; top: 20px; right: 20px;
+            font-size: clamp(1rem, 4vw, 1.8rem); color: var(--neon-blue);
+        }
+    </style>
+
+
+
+    <div id="setup-screen">
+        <h1 style="color:var(--neon-yellow); font-size: 1.8rem; margin-top:0;">🚀 قناة وسام التعليمية 🚀</h1>
+        <div class="input-group"><label>مستوى الصعوبة:</label><select id="diff-select"><option value="easy">سهل جداً (1-10)</option><option value="medium" selected="">متوسط (1-40)</option><option value="hard">صعب جداً (1-100)</option></select></div>
+        <div class="input-group"><label>عدد الأسئلة الكلي:</label><input type="number" id="count-input" value="10"></div>
+        <div class="input-group"><label>وقت التفكير (ثواني):</label><input type="number" id="time-input" value="10"></div>
+        <div class="input-group"><label>صوت العداد (Tick):</label><select id="tick-select"><option value="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3">نغمة 1</option><option value="https://assets.mixkit.co/active_storage/sfx/600/600-preview.mp3">نغمة 2</option><option value="https://assets.mixkit.co/active_storage/sfx/1071/1071-preview.mp3">نغمة 3</option></select></div>
+        <div class="input-group"><label>صوت الإجابة (Win):</label><select id="win-select"><option value="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3">جرس سحري ✨</option><option value="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3">نغمة نجاح 🏆</option></select></div>
+        <button class="start-btn" onclick="startVideo()">ابدأ التسجيل 🎥</button>
+    </div>
+
+    <div id="video-screen">
+        <div class="watermark">قناة وسام التعليمية</div>
+        <div id="progress-info">السؤال: 1 / 10</div>
+        <div id="timer-box">10</div>
+        <div id="question-text">?</div>
+        <div class="options-grid" id="options-container"></div>
+    </div>
+
+    <audio id="audio-tick"></audio>
+    <audio id="audio-win"></audio>
+
+    <script>
+        let config = {};
+        let currentStep = 0;
+        let lastAns = 0;
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'ar-SA';
+            msg.rate = 0.9;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function startVideo() {
+            config = {
+                diff: document.getElementById('diff-select').value,
+                total: parseInt(document.getElementById('count-input').value),
+                time: parseInt(document.getElementById('time-input').value),
+                tickSrc: document.getElementById('tick-select').value,
+                winSrc: document.getElementById('win-select').value
+            };
+            document.getElementById('audio-tick').src = config.tickSrc;
+            document.getElementById('audio-win').src = config.winSrc;
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('video-screen').style.display = 'flex';
+            playGame();
+        }
+
+        function playGame() {
+            if (currentStep >= config.total) {
+                document.getElementById('video-screen').innerHTML = "<div class='watermark'>قناة وسام التعليمية</div><h1 style='font-size:clamp(3rem, 10vw, 6rem); color:var(--neon-yellow); text-align:center;'>انتهى التحدي! 🏆<br><span style='font-size:0.5em'>قناة وسام التعليمية</span></h1>";
+                speak("أحسنت يا بطل، انتهى التحدي بنجاح");
+                return;
+            }
+
+            currentStep++;
+            const data = generateMath();
+            lastAns = data.ans;
+            
+            document.getElementById('progress-info').innerText = `السؤال: ${currentStep} / ${config.total}`;
+            document.getElementById('question-text').innerText = data.q;
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            const labels = ['أ', 'ب', 'ج', 'د'];
+
+            data.options.forEach((opt, i) => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.innerHTML = `<div class="letter-label">${labels[i]}</div> ${opt}`;
+                if(opt === data.ans) card.id = 'correct-target';
+                container.appendChild(card);
+            });
+
+            let textToSpeak = data.q.replace('×', ' ضرب ').replace('-', ' ناقص ').replace('+', ' زائد ');
+            speak("كم يساوي " + textToSpeak);
+
+            let timer = config.time;
+            document.getElementById('timer-box').innerText = timer;
+            
+            let interval = setInterval(() => {
+                timer--;
+                document.getElementById('timer-box').innerText = timer;
+                if(timer >= 0) document.getElementById('audio-tick').play();
+                if(timer <= 0) {
+                    clearInterval(interval);
+                    showFinalAnswer();
+                }
+            }, 1000);
+        }
+
+        function showFinalAnswer() {
+            const correct = document.getElementById('correct-target');
+            if(correct) correct.classList.add('correct-glow');
+            document.getElementById('audio-win').play();
+            speak("الإجابة الصحيحة هي " + lastAns);
+            setTimeout(playGame, 4000);
+        }
+
+        function generateMath() {
+            let max = config.diff === 'easy' ? 10 : config.diff === 'medium' ? 40 : 100;
+            let n1 = Math.floor(Math.random() * max) + 1;
+            let n2 = Math.floor(Math.random() * (max/2)) + 1;
+            let op = ['+', '-', '×'][Math.floor(Math.random() * 3)];
+            let ans;
+            if(op === '+') ans = n1 + n2;
+            else if(op === '-') { if(n1 < n2) [n1, n2] = [n2, n1]; ans = n1 - n2; }
+            else { n1 = Math.min(n1, 10); n2 = Math.min(n2, 10); ans = n1 * n2; }
+            let opts = new Set([ans]);
+            while(opts.size < 4) {
+                let off = Math.floor(Math.random() * 10) - 5;
+                if (off !== 0) opts.add(ans + off);
+            }
+            return { q: `${n1} ${op} ${n2}`, ans, options: [...opts].sort(() => Math.random() - 0.5) };
+        }
+    </script>
+
+<script src="./script.js"></script></body></html>

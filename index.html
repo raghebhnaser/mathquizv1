@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مولّد كويز تعليمي</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel">
+        <header class="panel__header">
+          <span class="panel__badge">قناة وسام التعليمية</span>
+          <h1>مولّد كويز جاهز للفيديو</h1>
+          <p>
+            حدّد نوع الأسئلة والإعدادات، وسيولّد لك كويز مع خيارات جاهز
+            للتسجيل.
+          </p>
+        </header>
+
+        <div class="panel__form">
+          <label class="field">
+            <span class="field__label">نوع الأسئلة</span>
+            <select id="categorySelect" class="field__input">
+              <option value="capitals">أعلام وعواصم</option>
+              <option value="math">ضرب وجمع</option>
+              <option value="arabic">لغة عربية - شرح حرف الهاء</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">مستوى الصعوبة</span>
+            <select id="difficultySelect" class="field__input">
+              <option value="easy">سهل (1-5)</option>
+              <option value="medium" selected>متوسط (1-10)</option>
+              <option value="hard">صعب (1-20)</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">عدد الأسئلة الكلي</span>
+            <input
+              id="questionCount"
+              class="field__input"
+              type="number"
+              min="1"
+              max="30"
+              value="10"
+            />
+          </label>
+
+          <label class="field">
+            <span class="field__label">وقت التفكير (ثواني)</span>
+            <input
+              id="timerSeconds"
+              class="field__input"
+              type="number"
+              min="5"
+              max="60"
+              value="10"
+            />
+          </label>
+
+          <label class="field">
+            <span class="field__label">صوت العداد (Tick)</span>
+            <select id="tickSound" class="field__input">
+              <option value="tick1">لهجة 1</option>
+              <option value="tick2">لهجة 2</option>
+              <option value="tick3">لهجة 3</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">صوت الإجابة (Win)</span>
+            <select id="winSound" class="field__input">
+              <option value="win1">جرس سحري ✨</option>
+              <option value="win2">تصفيق 👏</option>
+              <option value="win3">نجمة 🌟</option>
+            </select>
+          </label>
+
+          <button id="generateBtn" class="cta" type="button">
+            ابدأ التسجيل 🎥
+          </button>
+        </div>
+      </section>
+
+      <section class="preview" aria-live="polite">
+        <header class="preview__header">
+          <h2>معاينة الكويز</h2>
+          <p id="previewMeta">اختر الإعدادات واضغط ابدأ التسجيل.</p>
+        </header>
+        <ol id="quizList" class="preview__list"></ol>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
